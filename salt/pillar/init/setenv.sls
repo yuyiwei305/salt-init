@@ -1,0 +1,3 @@
+setenv:
+  HOSTNAME: compute
+
