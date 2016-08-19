@@ -43,12 +43,6 @@ installminion:
     - require: 
       - cmd: installminion
 
-minion-running:
- service.running:
-    - name: salt-minion
-    - enable: True
-    - require: 
-      - file: installminion
 hostname-set:
   file.managed:
     - source: salt://init/file/hostnameset.sh
@@ -57,13 +51,24 @@ hostname-set:
     - group: root
     - mode: 755
   cmd.run:
-    - name: bash /tmp/hostnameset.sh 
-    - require: 
+    - name: bash /tmp/hostnameset.sh
+    - require:
       - file: hostname-set
 
-changepasswd:
-  cmd.run:
-    - name: "echo 'LAHMyyc@1233' | passwd --stdin root && touch /tmp/changepasswd.lock"
-    - unless: test -f /tmp/changepasswd.lock
+
+
+
+
+minion-running:
+ service.running:
+    - name: salt-minion
+    - enable: True
+    - require: 
+      - file: installminion
+
+#changepasswd:
+#  cmd.run:
+#    - name: "echo 'LAHMyyc@1233' | passwd --stdin root && touch /tmp/changepasswd.lock"
+#    - unless: test -f /tmp/changepasswd.lock
  
  
