@@ -16,7 +16,7 @@ setresolv:
   
 setfirewall:
   cmd.run:
-    - name: setenforce 0 && sed -i.bak "s/SELINUX=permissive/SELINUX=disabled/g" /etc/selinux/config && systemctl stop firewalld.service && iptables --flush && systemctl disable firewalld.service
+    - name: setenforce 0 && sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config && systemctl stop firewalld.service && iptables --flush && systemctl disable firewalld.service
   pkg.installed:
     - names:
       - iptables-services  
