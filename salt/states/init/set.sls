@@ -29,11 +29,18 @@ setfirewall:
     - require:
       - pkg: setfirewall
 
+install-ntp:
+  pkg.installed:
+    - names:
+      - ntp
+  service.running:
+    - name: ntpd
+    - enable: True
 
  
 installminion:
   cmd.run:
-    - name: yum -y install epel* && yum -y install salt-minion 
+    - name: yum -y install epel-release && yum -y install salt-minion 
   file.managed:
     - source: salt://init/file/minion
     - name: /etc/salt/minion
@@ -50,17 +57,16 @@ hostname-set:
     - user: root
     - group: root
     - mode: 755
+    - template: jinja
+    - default:
+      NETWORK: enp3s0f0
   cmd.run:
     - name: bash /tmp/hostnameset.sh
     - require:
       - file: hostname-set
 
-
-
-
-
 minion-running:
- service.running:
+  service.running:
     - name: salt-minion
     - enable: True
     - require: 
